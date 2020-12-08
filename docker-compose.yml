@@ -8,7 +8,7 @@ services:
       FLASK_ENV: development
       MONGODB_DATABASE: appdb
       MONGODB_USERNAME: alvaro
-      MONGODB_PASSWORD: 1232145654
+      MONGODB_PASSWORD: secret
       MONGODB_HOSTNAME: mongo
     volumes:
       - type:  bind
@@ -24,13 +24,10 @@ services:
     restart: unless-stopped
     command: mongod --auth
     volumes:
-      - type:  bind
-        source: ./data
-        target: /data/db
+      - mongo-data:/data/db
     environment:
       MONGO_INIT_DB_ROOT_USERNAME: alvaro
-      MONGO_INIT_DB_ROOT_PASSWORD: 1232145654
-      MONGO_INIT_DB_DATABASE: appdb
+      MONGO_INIT_DB_ROOT_PASSWORD: secret
     ports:
       - "27017:27017"  
   mongo-express:
@@ -42,4 +39,6 @@ services:
       - mongo
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: alvaro
-      ME_CONFIG_MONGODB_ADMINPASSWORD: 1232145654
+      ME_CONFIG_MONGODB_ADMINPASSWORD: secret
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: secret
