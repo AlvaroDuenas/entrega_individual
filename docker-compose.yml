@@ -6,10 +6,10 @@ services:
       - "5000:5000"
     environment:
       FLASK_ENV: development
-      MONGODB_DATABASE: appdb
-      MONGODB_USERNAME: alvaro
-      MONGODB_PASSWORD: secret
-      MONGODB_HOSTNAME: mongo
+#      MONGODB_DATABASE: appdb
+#      MONGODB_USERNAME: alvaro
+#      MONGODB_PASSWORD: secret
+#      MONGODB_HOSTNAME: mongo
     volumes:
       - type:  bind
         source: .
@@ -22,7 +22,6 @@ services:
     image: mongo:latest
     container_name: mongo
     restart: unless-stopped
-    command: mongod --auth
     volumes:
       - mongo-data:/data/db
     environment:
@@ -34,11 +33,15 @@ services:
     image: mongo-express
     restart: always
     ports:
-      - 8081:8081
+      - "8081:8081"
     links:
       - mongo
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: alvaro
-      ME_CONFIG_MONGODB_ADMINPASSWORD: secret
-      ME_CONFIG_BASICAUTH_USERNAME: admin
-      ME_CONFIG_BASICAUTH_PASSWORD: secret
+    depends_on:
+      - mongo
+#    environment:
+#      ME_CONFIG_MONGODB_ADMINUSERNAME: alvaro
+#      ME_CONFIG_MONGODB_ADMINPASSWORD: secret
+#      ME_CONFIG_BASICAUTH_USERNAME: admin
+#      ME_CONFIG_BASICAUTH_PASSWORD: secret
+volumes:
+  mongo-data:
