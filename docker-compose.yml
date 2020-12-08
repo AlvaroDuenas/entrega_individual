@@ -24,9 +24,9 @@ services:
     restart: unless-stopped
     volumes:
       - mongo-data:/data/db
-    environment:
-      MONGO_INIT_DB_ROOT_USERNAME: alvaro
-      MONGO_INIT_DB_ROOT_PASSWORD: secret
+#    environment:
+#      MONGO_INIT_DB_ROOT_USERNAME: alvaro
+#      MONGO_INIT_DB_ROOT_PASSWORD: secret
     ports:
       - "27017:27017"  
   mongo-express:
