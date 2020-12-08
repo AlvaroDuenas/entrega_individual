@@ -1,0 +1,45 @@
+version: "3.8"
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_ENV: development
+      MONGODB_DATABASE: appdb
+      MONGODB_USERNAME: alvaro
+      MONGODB_PASSWORD: 1232145654
+      MONGODB_HOSTNAME: mongo
+    volumes:
+      - type:  bind
+        source: .
+        target: /web 
+    links:
+      - mongo
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: unless-stopped
+    command: mongod --auth
+    volumes:
+      - type:  bind
+        source: ./data
+        target: /data/db
+    environment:
+      MONGO_INIT_DB_ROOT_USERNAME: alvaro
+      MONGO_INIT_DB_ROOT_PASSWORD: 1232145654
+      MONGO_INIT_DB_DATABASE: appdb
+    ports:
+      - "27017:27017"  
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    links:
+      - mongo
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: alvaro
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 1232145654
